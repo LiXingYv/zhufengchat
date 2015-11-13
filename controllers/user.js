@@ -28,7 +28,7 @@ exports.reg = function(user,callback){
 /**
  * 用户登录
  */
-exports.login = function(user,callback){
+exports.login = function(user,cb){
     db.User.findOne({username:user.username,password:encryUtils.encrypt(user.password)},function(err,findUser){
         if(err)
             cb(err);

@@ -48,24 +48,60 @@ var server = app.listen(port);
 var messages = [];
 
 var io = require('socket.io').listen(server);
-/*io.set('authorization', function(request, next) {
+io.set('authorization', function(request, next) {
     signedCookieParser(request,{},function(err){//解密cookie
         sessionStore.get(request.signedCookies['connect.sid'],function(err,session){//从session中获取会话信息
             if (err) {
                 next(err.message, false)
             } else {
-                if (session && session._userId) {
+                if (session && session.userId) {
                     request.session = session;
                     next(null, true)
                 } else {
-                    next('未登陆')
+                    next('No login')
                 }
             }
         });
     });
-});*/
+});
+
+var SYSTEM = {
+    name: '系统',
+    avatarUrl: 'https://secure.gravatar.com/avatar/50d11d6a57cfd40e0878c8ac307f3e01?s=48'
+}
+
+var User = require('./controllers/user');
+var ObjectId = require('mongoose').Schema.ObjectId;
+
 io.sockets.on('connection',function(socket){
-    socket.emit('connected');
+    var userId = socket.request.session.userId;
+    var currentUser ;
+    User.findById({_id:userId},function(err,user){
+        if(err){
+            currentUser = {username:'匿名'};
+        }else{
+            currentUser = user;
+            //增加一条消息
+            socket.broadcast.emit('message.add', {
+                content: currentUser.username + '进入了聊天室',
+                creator: SYSTEM,
+                createAt: new Date(),
+                _id: ObjectId()
+            })
+            socket.on('disconnect', function () {
+                //给别人增加一条消息
+                socket.broadcast.emit('message.add', {
+                    content: currentUser.username + '离开了聊天室',
+                    creator: SYSTEM,
+                    createAt: new Date(),
+                    _id: ObjectId()
+                });
+            });
+            socket.emit('connected');
+        }
+    });
+
+
     socket.on('createMessage',function(message){
         messages.push(message);
         io.sockets.emit('message.add',message);
