@@ -1,19 +1,32 @@
-<div class="col-md-12">
+<div class="col-md-9">
     <div class="panel panel-default">
-        <div class="panel-heading">珠峰聊天室</div>
+        <div class="panel-heading">聊天</div>
         <div class="panel-body">
-            <div class="list-group" auto-scroll-to-bottom style="height: 300px;overflow-y: auto">
-                <div class="list-group-item" ng-repeat="message in messages track by $index">
-                    匿名: {{message}}
+            <div class="list-group" auto-scroll-to-bottom style="height: 600px;overflow-y: auto">
+                <div class="list-group-item" ng-repeat="message in room.messages track by $index">
+                    <img ng-src="{{message.creator.avatar}}" title="{{message.creator.username}}" class="img-rounded"/>{{message.creator.username}}: {{message.content}} <time am-time-ago="message.createAt" class="pull-right"></time>
                 </div>
             </div>
         </div>
         <div class="panel-footer">
             <form role="form" ng-controller="MessageCreatorCtrl">
                 <div class="form-group">
-                    <textarea required class="form-control" ng-model="newMessage" ctrl-enter-break-line="createMessage()" placeholder="Ctrl+Enter to quick send"></textarea>
+                    <textarea required class="form-control" ng-model="newMessage" ctrl-enter-break-line="createMessage()" placeholder="大侠,有话请讲...."></textarea>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">在线人数</div>
+        <div class="panel-body">
+            <div class="list-group" auto-scroll-to-bottom style="height: 600px;overflow-y: auto">
+                <div class="list-group-item" ng-repeat="user in room.users track by $index">
+                    <img ng-src="{{user.avatar}}" title="{{user.username}}" class="img-rounded"/>{{user.username}}
+                </div>
+            </div>
         </div>
     </div>
 </div>

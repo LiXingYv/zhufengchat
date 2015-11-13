@@ -6,11 +6,15 @@
  * <textarea ng-model="newMessage" ctrl-enter-break-line="createMessage()"></textarea>绑定。
  * 同时绑定了一个控制器方法createMessage，当用户回车时，调用这个方法，把新消息发送给服务端。
  */
-angular.module('zhufengChat').controller('MessageCreatorCtrl',function($scope,socket){
+angular.module('zhufengChat').controller('MessageCreatorCtrl',function($rootScope,$scope,socket){
     $scope.newMessage = '';
     $scope.createMessage = function(){
         if($scope.newMessage){
-            socket.emit('createMessage',$scope.newMessage);
+            socket.emit('createMessage',{
+                content: $scope.newMessage,
+                creator: $rootScope.me,
+                createAt: new Date()
+            });
             $scope.newMessage = '';
         }
     }

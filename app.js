@@ -46,7 +46,7 @@ app.use(function(err, req, res, next) {
 var server = app.listen(port);
 
 var messages = [];
-
+var users = [];
 var io = require('socket.io').listen(server);
 io.set('authorization', function(request, next) {
     signedCookieParser(request,{},function(err){//解密cookie
@@ -81,20 +81,19 @@ io.sockets.on('connection',function(socket){
             currentUser = {username:'匿名'};
         }else{
             currentUser = user;
+            users.push(currentUser);
             //增加一条消息
             socket.broadcast.emit('message.add', {
                 content: currentUser.username + '进入了聊天室',
                 creator: SYSTEM,
-                createAt: new Date(),
-                _id: ObjectId()
+                createAt: new Date()
             })
             socket.on('disconnect', function () {
                 //给别人增加一条消息
                 socket.broadcast.emit('message.add', {
                     content: currentUser.username + '离开了聊天室',
                     creator: SYSTEM,
-                    createAt: new Date(),
-                    _id: ObjectId()
+                    createAt: new Date()
                 });
             });
             socket.emit('connected');
@@ -107,6 +106,6 @@ io.sockets.on('connection',function(socket){
         io.sockets.emit('message.add',message);
     });
     socket.on('getAllMessages',function(){
-        socket.emit('allMessages',messages);
+        socket.emit('allMessages',{messages:messages,users:users});
     });
 });
