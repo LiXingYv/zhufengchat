@@ -1,0 +1,19 @@
+{
+  "name": "frontJiangHu",
+  "version": "1.0.0",
+  "description": "这是一个前端江湖聊天室",
+  "main": "node ./bin/www",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "lakes",
+    "chat"
+  ],
+  "author": "zhangrenyang",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.1",
+    "socket.io": "^1.3.6"
+  }
+}

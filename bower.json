@@ -1,0 +1,23 @@
+{
+  "name": "frontJiangHu",
+  "description": "这是一个前端江湖聊天室",
+  "main": "node ./bin/www",
+  "authors": [
+    "zhangrenyang"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "lakes",
+    "chat"
+  ],
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
