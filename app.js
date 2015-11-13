@@ -15,7 +15,7 @@ var sessionStore = new MongoStore({
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var port = process.env.PORT | 3000;
-app.use(express.static(path.join(__dirname,'app')));
+app.use(express.static(path.join(__dirname,'build')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
