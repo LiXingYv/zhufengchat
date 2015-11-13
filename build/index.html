@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html ng-app="zhufengChat">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/css/f2d483c4.vendor.css">
+
+    <link rel="stylesheet" href="/css/0c4638ed.front.css">
+    <base href="/">
+</head>
+<body>
+
+<!-- Begin Templates -->
+<script type="text/ng-template" id="/pages/login.html">
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">登陆</div>
+        <div class="panel-body" >
+            <form role="form" novalidate  ng-submit="save()" name="userform">
+                <div class="form-group row" ng-class="{'has-error':userform.username.$invalid&&userform.username.$dirty}">
+                    <label class="col-sm-offset-2 col-sm-2 control-label text-right" for="username"><span class="text-danger">*</span>名号</label>
+                    <div class="input-group col-sm-4">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+                        <input type="text" id="username" name="username" ng-model="user.username" class="form-control" placeholder="请输入中文用户名" ng-pattern="/[\u4e00-\u9fa5]/" ng-required/>
+                    </div>
+                    <div class="help-block col-sm-4" ng-show="userform.username.$dirty && userform.username.$invalid">
+                        <span class="text-danger" ng-show="userform.username.$error.required">请填写名号</span>
+                        <span class="text-danger" ng-show="userform.username.$error.pattern">请填写正确的名号</span>
+                    </div>
+                </div>
+                <div class="form-group row" ng-class="{'has-error':userform.password.$invalid&&userform.password.$dirty}">
+                    <label for="password" class="col-sm-offset-2 col-sm-2 control-label text-right"><span class="text-danger">*</span>密钥</label>
+                    <div class="input-group col-sm-4">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
+                        <input type="text" id="password" name="password" ng-model="user.password" class="form-control" placeholder="请输入6到12位的密钥" required ng-minlength="6" ng-maxlength="12"/>
+                    </div>
+                    <div class="help-block col-sm-4" ng-show="userform.password.$dirty && userform.password.$invalid">
+                        <span class="text-danger" ng-show="userform.password.$error.required">请填写密码</span>
+                        <span class="text-danger" ng-show="userform.password.$error.minlength">最少有6个字符</span>
+                        <span class="text-danger" ng-show="userform.password.$error.maxlength">最多有12个字符</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-5 col-sm-4">
+                        <button type="submit" class="btn btn-lg btn-primary btn-enter" ng-disabled="userform.$dirty&&userform.$invalid">登陆</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</script>
+
+<script type="text/ng-template" id="/pages/reg.html">
+<div class="col-md-12">
+    <div class="panel panel-default">
+        <div class="panel-heading">注册</div>
+        <div class="panel-body" >
+            <!-- 注意名字必须得有 ,这个验证跟我们的ng-mode是脱耦合的-->
+            <form role="form" novalidate  ng-submit="save()" name="userform">
+                <div class="form-group row" ng-class="{'has-error':userform.username.$invalid&&userform.username.$dirty}">
+                    <label class="col-sm-offset-2 col-sm-2 control-label text-right" for="username"><span class="text-danger">*</span>名号</label>
+                    <div class="input-group col-sm-4">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+                        <input type="text" id="username" name="username" ng-model="user.username" class="form-control" placeholder="请输入中文名号" ng-pattern="/[\u4e00-\u9fa5]/" ng-required/>
+                    </div>
+                    <div class="help-block col-sm-4" ng-show="userform.username.$dirty && userform.username.$invalid">
+                        <span class="text-danger" ng-show="userform.username.$error.required">请填写名号</span>
+                        <span class="text-danger" ng-show="userform.username.$error.pattern">请填写正确的名号</span>
+                    </div>
+                </div>
+                <div class="form-group row" ng-class="{'has-error':userform.email.$invalid&&userform.email.$dirty}">
+                    <label class="col-sm-offset-2 col-sm-2 control-label text-right" for="email"><span class="text-danger">*</span>邮箱</label>
+                    <div class="input-group col-sm-4">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></div>
+                        <input type="email" id="email" name="email" ng-model="user.email" class="form-control" placeholder="请输入邮箱" ng-required/>
+                    </div>
+                    <div class="help-block col-sm-4" ng-show="userform.email.$dirty && userform.email.$invalid">
+                        <span class="text-danger" ng-show="userform.email.$error.required">请填写邮箱</span>
+                        <span class="text-danger" ng-show="userform.email.$error.email">请填写正确的邮箱</span>
+                    </div>
+                </div>
+                <div class="form-group row" ng-class="{'has-error':userform.password.$invalid&&userform.password.$dirty}">
+                    <label for="password" class="col-sm-offset-2 col-sm-2 control-label text-right"><span class="text-danger">*</span>密钥</label>
+                    <div class="input-group col-sm-4">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
+                        <input type="text" id="password" name="password" ng-model="user.password" class="form-control" placeholder="请输入6到12位的密钥" required ng-minlength="6" ng-maxlength="12"/>
+                    </div>
+                    <div class="help-block col-sm-4" ng-show="userform.password.$dirty && userform.password.$invalid">
+                        <span class="text-danger" ng-show="userform.password.$error.required">请填写密码</span>
+                        <span class="text-danger" ng-show="userform.password.$error.minlength">最少有6个字符</span>
+                        <span class="text-danger" ng-show="userform.password.$error.maxlength">最多有12个字符</span>
+                    </div>
+                </div>
+                <div class="form-group row" ng-class="{'has-error':userform.repassword.$invalid&&userform.repassword.$dirty}">
+                    <label for="repassword" class="col-sm-offset-2 col-sm-2 control-label text-right"><span class="text-danger">*</span>重复密码</label>
+                    <div class="input-group col-sm-4">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></div>
+                        <input type="text" id="repassword" name="repassword" ng-model="user.repassword" class="form-control" placeholder="请输入6到12位的密钥"  required ng-minlength="6" ng-maxlength="12"/>
+                    </div>
+                    <div class="help-block col-sm-4" ng-show="userform.repassword.$dirty && userform.repassword.$invalid">
+                        <span class="text-danger" ng-show="userform.repassword.$error.required">请填写密钥</span>
+                        <span class="text-danger" ng-show="userform.repassword.$error.minlength">最少有6个字符</span>
+                        <span class="text-danger" ng-show="userform.repassword.$error.maxlength">最多有12个字符</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-5 col-sm-4">
+                        <button type="submit" class="btn btn-lg btn-primary btn-enter" ng-disabled="userform.$dirty&&userform.$invalid">注册</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</script>
+
+<script type="text/ng-template" id="/pages/room.html">
+<div class="col-md-9">
+    <div class="panel panel-default">
+        <div class="panel-heading">聊天</div>
+        <div class="panel-body">
+            <div class="list-group" auto-scroll-to-bottom style="height: 600px;overflow-y: auto">
+                <div class="list-group-item" ng-repeat="message in room.messages track by $index">
+                    <img ng-src="{{message.creator.avatar}}" title="{{message.creator.username}}" class="img-rounded"/>{{message.creator.username}}: {{message.content}} <time am-time-ago="message.createAt" class="pull-right"></time>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <form role="form" ng-controller="MessageCreatorCtrl">
+                <div class="form-group">
+                    <textarea required class="form-control" ng-model="newMessage" ctrl-enter-break-line="createMessage()" placeholder="大侠,有话请讲...."></textarea>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="panel panel-default">
+        <div class="panel-heading">在线人数</div>
+        <div class="panel-body">
+            <div class="list-group" auto-scroll-to-bottom style="height: 600px;overflow-y: auto">
+                <div class="list-group-item" ng-repeat="user in room.users track by $index">
+                    <img ng-src="{{user.avatar}}" title="{{user.username}}" class="img-rounded"/>{{user.username}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+<!-- End Templates -->
+
+
+<!-- 添加 .navbar-fixed-top 类可以让导航条固定在顶部，还可包含一个 .container 或 .container-fluid 容器，从而让导航条居中，并在两侧添加内补（padding）。 -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="NavbarCtrl">
+    <div class="navbar-header">
+        <a href="#" class="navbar-brand">珠峰聊天室</a>
+    </div>
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li ng-show="me.username" ng-class="{active:isActive(&apos;/&apos;)}"><a href="#/room">大厅</a></li>
+            <li ng-hide="me.username" ng-class="{active:isActive(&apos;/login&apos;)}"><a href="#/login">登陆</a></li>
+            <li ng-hide="me.username" ng-class="{active:isActive(&apos;/reg&apos;)}"><a href="#/reg">注册</a></li>
+        </ul>
+        <!-- 如果变量me不为空，即存在用户信息就显示用户头像和登出了解，否则什么也不显示 -->
+        <ul class="nav navbar-nav navbar-right" ng-show="me.username">
+            <li><a ng-click="logout()">{{me.username}}&nbsp;<span>退出江湖</span>&nbsp;&nbsp;&nbsp;</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <!-- 在index.html中，使用ng-view指令放一个占位符，Angular可以根据URL地址的不同载入对应的视图和控制器； -->
+    <div class="row" ng-view=""></div>
+</div>
+
+</body>
+<script src="socket.io/socket.io.js"></script>
+<script src="/script/a7e12b26.vendor.js"></script>
+
+<script src="/script/72edb60c.front.js"></script>
+</html>
