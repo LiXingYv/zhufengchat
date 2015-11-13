@@ -26,4 +26,16 @@ angular.module('zhufengChat').run(function($rootScope,$location,$http,amMoment,s
         $rootScope.me = me;
     })
 
+    $rootScope.$on('$routeChangeStart', function(evt, next, current){
+        //loadedTemplateUrl: "/pages/room.html"
+        if(current && '/pages/room.html' == current.loadedTemplateUrl){
+            socket.emit('leave',$rootScope.me);
+        }
+    });
+
+    $rootScope.$on('$routeChangeSuccess', function(evt, next, current){
+        if('/pages/room.html' == next.loadedTemplateUrl){
+            socket.emit('join',$rootScope.me);
+        }
+    });
 });

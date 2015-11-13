@@ -8,11 +8,12 @@ angular.module('zhufengChat').factory('socket',function($rootScope){
      */
     return {
         on:function(eventName,callback){
+            socket.removeAllListeners(eventName);
             socket.on(eventName,function(){
-                var args = arguments;
-                $rootScope.$apply(function(){
-                    callback.apply(socket,args);
-                });
+                    var args = arguments;
+                    $rootScope.$apply(function(){
+                        callback.apply(socket,args);
+                    });
             });
         },
         emit:function(eventName,data,callback){

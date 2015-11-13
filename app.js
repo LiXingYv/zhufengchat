@@ -15,7 +15,7 @@ var sessionStore = new MongoStore({
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var port = process.env.PORT | 3000;
-app.use(express.static(path.join(__dirname,'build')));
+app.use(express.static(path.join(__dirname,'app')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -107,5 +107,16 @@ io.sockets.on('connection',function(socket){
     });
     socket.on('getAllMessages',function(){
         socket.emit('allMessages',{messages:messages,users:users});
+    });
+    socket.on('join',function(me){
+        users.push(me);
+    });
+
+    socket.on('leave',function(me){
+        if(me)
+            users = users.filter(function(user){
+                if(user)
+                return me._id != user._id;
+            });
     });
 });
