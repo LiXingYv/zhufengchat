@@ -353,7 +353,7 @@ module.exports = function (grunt) {
           dest: '<%= config.dist %>',
           src: [
             '*.{ico,png,txt}',
-            'images/{,*/}*.webp',// *.webp */*.webp *并不能代表反斜杠,只有**才可以
+            'images/{,*/}*.webp',// *.webp */*.webp *并不能代表反斜杠,只有**才可以 根目录或一级目录下的webp
             '{,*/}*.html',//根目录或一级目录下的html
             'styles/fonts/{,*/}*.*'
           ]
